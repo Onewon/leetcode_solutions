@@ -17,7 +17,8 @@
  */
 class MySolution {
     public boolean isBalanced(TreeNode root) {
-        if(root==null) return false;
+        //In pure computer science, null is a valid binary tree. It is called an empty binary tree. Just like an empty set is still a valid set.
+        if(root==null) return false;//这里是true.
         if(Math.abs(maxDepth(root.left)-maxDepth(root.right))<=1) return true;
         else return false;
     }
@@ -30,8 +31,8 @@ class MySolution {
 }
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        if(root==null) return true; //竟然这里是true.
-        if(getHeight(root)!=-1) return true;
+        if(root==null) return true;
+        return (getHeight(root)!=-1);
     }
     public int getHeight(TreeNode root){
         if(root==null) return 0;
