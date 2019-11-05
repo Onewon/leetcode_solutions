@@ -1,3 +1,5 @@
+import javax.swing.tree.TreeNode;
+
 /**
  * 108. Convert Sorted Array to Binary Search Tree
  *
@@ -35,6 +37,14 @@ class MySolution {
 
 class Solution {
     public TreeNode sortedArrayToBST(int[] nums) {
-        
+        if(nums.length==0) return null;
+        int mid = nums.length/2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = sortedArrayToBST(cutArray(nums,0,mid));
+        root.right = sortedArrayToBST(cutArray(nums,mid+1,nums.length-1));
+        return root;
+    }
+    public int[] cutArray(int[] nums,int l,int r){
+        return Arrays.copyOfRange(nums,l+1,r+1);
     }
 }
