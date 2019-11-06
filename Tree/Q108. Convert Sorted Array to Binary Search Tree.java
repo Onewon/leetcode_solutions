@@ -18,33 +18,35 @@ import javax.swing.tree.TreeNode;
 
 class MySolution {
     public TreeNode sortedArrayToBST(int[] nums) {
-        int stIndex = nums.length/2+1;
+        if(nums == null) return null;
+        int stIndex = nums.length/2;
         TreeNode root = new TreeNode(nums[stIndex]);
-        addNode(root.left,nums,stIndex-1);
-        addNode(root.right,nums,stIndex+1);
+        root.left = addNode(root.left,nums,stIndex-1); //需要传引用
+        // root.right = addNode(root.right,nums,stIndex+1);
         return root;
     }
     public TreeNode addNode(TreeNode node,int[] nums, int index){
         if (node == null) return node;
-        if(index >0 &&index<nums.length/2+1)
+
+        if(index >0 && index<nums.length/2-1)
             node.left = new TreeNode(nums[index]);
-            addNode(node.left,nums,index-1);
-        if(index >nums.length/2+1 &&index<nums.length-1)
-            node.right = new TreeNode(nums[index]);
-            addNode(node.right,nums,index+1);
+            return addNode(node.left,nums,index-1);
+
+        // if(index >=nums.length/2+1 && index<nums.length-1)
+        //     node.right = new TreeNode(nums[index]);
+        //     return addNode(node.right,nums,index+1);
     }
 }
-
-class Solution {
+class Solution{
     public TreeNode sortedArrayToBST(int[] nums) {
-        if(nums.length==0) return null;
-        int mid = nums.length/2;
-        TreeNode root = new TreeNode(nums[mid]);
-        root.left = sortedArrayToBST(cutArray(nums,0,mid));
-        root.right = sortedArrayToBST(cutArray(nums,mid+1,nums.length-1));
-        return root;
-    }
-    public int[] cutArray(int[] nums,int l,int r){
-        return Arrays.copyOfRange(nums,l+1,r+1);
-    }
+    if(nums.length==0) return null;
+    int mid = (nums.length-1)/2;
+    TreeNode root = new TreeNode(nums[mid]);
+    root.left = sortedArrayToBST(cutArray(nums,0,mid));
+    root.right = sortedArrayToBST(cutArray(nums,mid+1,nums.length));
+    return root;
+}
+public int[] cutArray(int[] nums,int l,int r){
+    return Arrays.copyOfRange(nums,l,r);
+}
 }
