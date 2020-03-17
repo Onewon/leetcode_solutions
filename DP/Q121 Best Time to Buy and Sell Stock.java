@@ -12,40 +12,29 @@
 * Output: 5
 **/
 
-class Solution_fail {
-    public int maxProfit(int[] prices) {
-        if(prices.length==0||prices.length==1) return 0;
-        int low_index = -1;
-        int high_index = -1;
-        int max=0;
-        int min=0;
-        for (int i = 0; i < prices.length; i++) {
-            if (i==0 && prices[i]<=prices[i+1] ) {
-                max = prices[i+1];
-                min = prices[i];
-                high_index = i+1;
-                low_index =i;
-                continue;
-            } //first step get max and min
-            else if (i==0 && prices[i]>prices[i+1] ) {
-                min = prices[i+1];
-                max = prices[i];
-                low_index =i+1;
-                high_index = i;
-                continue;
-            }
-            if(high_index<low_index) {max = 0; high_index=-1;}
-            if(min>prices[i]) {min = prices[i]; low_index = i;}
-            if(max<prices[i]) {max = prices[i]; high_index = i;}
-        }
-        return max-min;
-    }
-}
-// O(n ~ n^n)
-
 class Solution {
     public int maxProfit(int[] prices) {
-        
+        public int maxProfit(int[] prices) {
+            int profit = 0;
+            int n = prices.length;
+            if(n==0) return profit;
+            int[][] DP =new int[n][3];
+            DP[0][0] = 0; //not and never have
+            DP[0][1] = -prices[0]; //buy one
+            DP[0][2] = 0;  // not but bought
+            for (int i = 1; i <n; i++) { 
+                DP[i][0] = DP[i-1][0];
+                DP[i][1] = Math.max(DP[i-1][0]-prices[i],DP[i-1][1]);
+                DP[i][2] = Math.max(DP[i-1][1]+prices[i], DP[i-1][2]);
+            }
+            profit = MaxinThree(DP[n-1][0], DP[n-1][1], DP[n-1][2]);
+            return profit;
+        }
+        public int MaxinThree(int a,int b,int c){
+            int max = Math.max(a,b);
+            max = Math.max(max,c);
+            return max;
+        }
     }
 }
 
